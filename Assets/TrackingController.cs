@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 namespace DefaultNamespace
 {
     public class TrackingController : MonoBehaviour
     {
-        private XRReferenceImageLibrary _library;
-        
         public TrackingController()
         {
             
         }
 
-        public void LoadToLibrary(XRReferenceImageLibrary imageLibrary)
+        public void LoadToLibrary( ARTrackedImageManager arTrackedImageManager, Texture2D imageToAdd)
         { 
-            /*Texture2D imageTexture = Resources.Load<Texture2D>("Object0");
-            var aaa = imageLibrary[0].texture;
-            aaa = imageTexture;*/
+            if (!(ARSession.state == ARSessionState.SessionInitializing || ARSession.state == ARSessionState.SessionTracking))
+                return;
+
+            if (arTrackedImageManager.referenceLibrary is MutableRuntimeReferenceImageLibrary mutableLibrary)
+            {
+                mutableLibrary.ScheduleAddImageWithValidationJob(
+                    imageToAdd,
+                    "Object0",
+                    0.5f /* 50 cm */);
+            }
         }
     }
 }

@@ -1,22 +1,16 @@
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Net;
 using DefaultNamespace;
-using Siccity.GLTFUtility;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 public class ApplicationStartup : MonoBehaviour
 {
     [SerializeField] private string[] urls;
 
     [SerializeField] private string objectName;
-
-    [SerializeField] private XRReferenceImageLibrary _library;
+    
     [SerializeField] private ARTrackedImageManager _arTrackedImageManager;
     
     private int urlNumber = 0;
@@ -60,13 +54,12 @@ public class ApplicationStartup : MonoBehaviour
         }
         else
         {
-            trackingController.LoadToLibrary(_library);
-
-            /*var aaa = Resources.Load("Object1");
-            var bbb = Instantiate(aaa) as GameObject;
-            _arTrackedImageManager.trackedImagePrefab = bbb;*/
+            Texture2D Texture2D = Resources.Load<Texture2D>("Object0");
+            trackingController.LoadToLibrary(_arTrackedImageManager,Texture2D);
         }
     }
+    
+
 
     private void DownLoadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
     {
